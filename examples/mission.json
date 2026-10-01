@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "mission_id": "HARMONY-TELEGRAPH-CORE-001",
+  "revision": 1,
+  "project_id": "harmony",
+  "objective": "Implement and validate the deterministic Telegraph Core state machine.",
+  "action": "START_BUILDER",
+  "profile_id": "builder-v1",
+  "target": {
+    "repo_root": "/home/r200dev/harmony-telegraph",
+    "base_commit_oid": "0000000000000000000000000000000000000001"
+  },
+  "retry_policy": "NEVER",
+  "on_failure": "HOLD"
+}
