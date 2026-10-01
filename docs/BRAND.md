@@ -8,3 +8,7 @@
 - Geometric mountains, sea, lines, planes, overlap and upward movement inspired by 유영국. Assets are original vector compositions, not reproductions. No endorsement or affiliation is implied.
 - The dot-based direction is reserved for future exploration.
 - The landing page keeps English and Korean copy visible without requiring JavaScript.
+
+
+- The h silhouette is continuous, with color planes clipped inside it. Header and footer use complete SVG wordmarks so both lines share the same alignment.
+- Footer uses the white monochrome [wordmark](assets/logo-mono.svg); the standalone [monochrome mark](assets/logo-mark-mono.svg) is also supplied.
