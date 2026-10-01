@@ -14,7 +14,7 @@ This URL is a planned destination, not a verified live deployment.
 The `.nojekyll` file prevents Jekyll processing. All site asset paths are relative, so the project subpath works. No build workflow or external scripts are required.
 
 ## Remaining public-source release gates
-- Decide and add an appropriate LICENSE; no license is inferred by this package.
+- Apache License 2.0 was selected by the owner and added as LICENSE, with NOTICE and bilingual README references.
 - Verify material implementation influences from project records, as required by [INFLUENCES.md](../INFLUENCES.md).
 - Review the full repository for private operational material before changing visibility. The preserved example currently names `/home/r200dev/harmony-telegraph`; confirm this host path is acceptable for public distribution or authorize a separate example sanitization.
 - Merge the reviewed packaging changes and configure Pages.

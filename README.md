@@ -72,4 +72,5 @@ Read [security guidance](SECURITY.md) before sharing operational artifacts.
 
 ## Branding and license
 Original geometric h mark and landscape inspired by 유영국's geometric abstraction; no artwork reproduction or endorsement is claimed. See [brand guidance](docs/BRAND.md).
-No LICENSE is currently supplied. Do not assume an open-source license; a license decision remains a public-release gate.
+Code and documentation are licensed under [Apache License 2.0](LICENSE). See [NOTICE](NOTICE). Trademark rights are not granted; brand use is described in [brand guidance](docs/BRAND.md).
+

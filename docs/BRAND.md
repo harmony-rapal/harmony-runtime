@@ -12,3 +12,8 @@
 
 - The h silhouette is continuous, with color planes clipped inside it. Header and footer use complete SVG wordmarks so both lines share the same alignment.
 - Footer uses the white monochrome [wordmark](assets/logo-mono.svg); the standalone [monochrome mark](assets/logo-mark-mono.svg) is also supplied.
+
+## License and brand use
+Code and documentation use Apache License 2.0. The license does not grant trademark rights. You may identify the original project and preserve its attribution. Do not imply official endorsement or label a modified product as an official harmony runtime release. Contact harmony.rapal@gmail.com for brand use beyond identification and attribution.
+
+The large hero title uses measured glyph bounds to align both words to the same visible width. Small runtime lettering is inset for optical balance.

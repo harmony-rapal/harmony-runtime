@@ -72,4 +72,5 @@ python3 -m compileall -q telegraph tests
 
 ## 브랜딩과 라이선스
 유영국의 기하학적 추상에서 영감을 받은 독자적인 h 마크와 풍경입니다. 원작 복제나 공식 제휴를 주장하지 않습니다. [브랜드 안내](docs/BRAND.md).
-현재 LICENSE 파일이 없습니다. 오픈소스 라이선스를 가정하지 않으며 라이선스 결정은 공개 전 남은 조건입니다.
+코드와 문서는 [Apache License 2.0](LICENSE)을 적용합니다. [NOTICE](NOTICE)를 확인하세요. 상표권 사용 허가는 포함하지 않으며 브랜드 사용은 [브랜드 안내](docs/BRAND.md)를 따릅니다.
+

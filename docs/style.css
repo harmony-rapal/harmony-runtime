@@ -2,3 +2,5 @@
 
 
 .brand .wordmark{display:block;width:216px;height:72px;object-fit:contain}header .brand,footer .brand{line-height:0}
+
+.hero-title{width:min(420px,100%);margin:18px 0 24px;line-height:0;letter-spacing:normal}.hero-title img{display:block;width:100%;height:auto}
