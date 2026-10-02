@@ -5,6 +5,36 @@
 
 **AI can propose. Humans authorize. Sunsu executes. Evidence proves.**
 
+## For AI-agent development teams of 1–10
+
+**A governed execution layer for AI agents.**
+
+Stop copy-pasting AI commands into privileged terminals. Let AI propose. Keep humans in authority. Preserve evidence of every execution. Inspect the approver, execution identity and result without rebuilding your workflow around a new platform.
+
+## 60-second Baton demo
+
+From the repository root, with Python 3.12 and no dependencies or credentials:
+
+```bash
+python3 -m demo.server
+```
+
+Open **http://localhost:8765/demo.html**. Inspect Proposal → Baton → Human Gate, choose **REJECT** (no file), then **New proposal** and **APPROVE** (one fixed file in a private temporary sandbox). Inspect output text, SHA-256 evidence, exit status, packet ID and FINAL receipt. Stop with Ctrl+C; temporary demo files are removed. One shared session per server; this is a single-user educational demo.
+
+Docker packaging is included:
+
+```bash
+docker compose up --build
+```
+
+The container runs without root, publishes only to loopback, uses a read-only filesystem and a temporary writable sandbox. **Docker execution is unverified on HQ02: Docker is not installed.** The Python command above is the verified local fallback. Do not expose this demo server publicly.
+
+[Try the mobile-shaped UI](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
+
+The UI is implemented and connected to the local demo server. It is **not an installable PWA or remote phone approval service**. On static hosting it cannot execute actions. Demo approval and executor names are unauthenticated labels, and hashes are educational receipts, not signed telegraph Human Gate proofs. The demo does not call or change telegraph's canonical authority logic. No arbitrary commands, production deployment, credentials or payments are accepted.
+
+**FULL_RELEASE_ACTIVATION=HOLD**. This demonstration does not certify compliance or production readiness.
+
 ## Vision
 A shared workspace where human intent, bounded authority, execution and evidence remain connected.
 

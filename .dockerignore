@@ -1,0 +1,9 @@
+**
+!demo/
+!demo/*.py
+!docs/
+!docs/*.html
+!docs/*.css
+!docs/*.js
+!docs/assets/
+!docs/assets/*.svg

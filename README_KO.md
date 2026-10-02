@@ -5,6 +5,26 @@
 
 **AI는 제안하고, 사람은 승인하며, 선수는 실행하고, 증거는 입증합니다.**
 
+## AI-agent 개발팀 1–10명을 위한 실행 거버넌스
+
+AI 명령을 권한 있는 터미널에 복사해서 실행하는 팀을 위한 데모입니다. AI가 제안하고 사람이 결정하며, 승인자·실행 identity·결과 evidence를 확인합니다.
+
+## 60초 Baton 데모
+
+저장소 루트에서 Python 3.12로 실행합니다. 추가 패키지나 credential은 필요 없습니다.
+
+```bash
+python3 -m demo.server
+```
+
+http://localhost:8765/demo.html 에서 REJECT → New proposal → APPROVE를 체험하세요. 거절은 파일을 만들지 않으며, 승인은 임시 sandbox에 고정 파일 하나만 만듭니다. 내용 hash, exit status, FINAL receipt를 확인할 수 있습니다. Ctrl+C로 종료하면 임시 파일을 정리합니다.
+
+`docker compose up --build` 구성도 포함했습니다. HQ02에는 Docker가 없어 Docker 실행은 미검증입니다. 위 Python 실행은 검증된 fallback입니다.
+
+모바일 형태 UI는 로컬 데모 서버에 연결된 구현입니다. 설치형 PWA·원격 휴대폰 승인·cloud 서비스는 구현되지 않았습니다. 정적 페이지는 실행할 수 없는 시각적 preview입니다. 데모 identity는 인증된 사람이 아니며 receipt는 서명된 telegraph 운영 receipt가 아닙니다. 단일 사용자용이며 공개 서버로 노출하지 마세요.
+
+**FULL_RELEASE_ACTIVATION=HOLD**를 유지합니다. [검증 보고서](docs/DEMO_001_EVIDENCE.md).
+
 ## Vision — 비전
 사람의 의도, 한정된 권한, 실행과 증거를 연결하는 공동 작업 공간을 지향합니다.
 
