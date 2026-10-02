@@ -144,10 +144,11 @@ def make_server(host='127.0.0.1', port=8765, public_port=None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--container', action='store_true', help='Bind all interfaces inside a container only')
+    parser.add_argument('--port', type=int, default=8765, help='Local listening port (default: 8765)')
     parser.add_argument('--public-port', type=int, help='Loopback port published by Docker; no remote hosts accepted')
     args = parser.parse_args()
-    server = make_server('0.0.0.0' if args.container else '127.0.0.1', public_port=args.public_port)
-    print(f'harmony runtime demo: http://localhost:{args.public_port or 8765}/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
+    server = make_server('0.0.0.0' if args.container else '127.0.0.1', port=args.port, public_port=args.public_port)
+    print(f'harmony runtime demo: http://localhost:{args.public_port or args.port}/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

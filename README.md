@@ -39,6 +39,8 @@ Open **http://localhost:18765/demo.html** on the host. Stop with `docker compose
 
 [Try the 60-second Baton demo](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
 
+[Demo packaging, configurable loopback ports, Python fallback and scoped cleanup](docs/DEMO_001_PACKAGING.md)
+
 The UI is implemented and connected to the local demo server. It is **not an installable PWA or remote phone approval service**. On static hosting it cannot execute actions. Demo approval and executor names are unauthenticated labels, and hashes are educational receipts, not signed telegraph Human Gate proofs. The demo does not call or change telegraph's canonical authority logic. No arbitrary commands, production deployment, credentials or payments are accepted.
 
 **FULL_RELEASE_ACTIVATION=HOLD**. This demonstration does not certify compliance or production readiness.

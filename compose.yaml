@@ -1,8 +1,9 @@
 services:
   demo:
     build: .
+    command: ["python3", "-B", "-m", "demo.server", "--container", "--public-port", "${HARMONY_DEMO_PORT:-8765}"]
     ports:
-      - "127.0.0.1:8765:8765"
+      - "127.0.0.1:${HARMONY_DEMO_PORT:-8765}:8765"
     read_only: true
     tmpfs:
       - /tmp:size=16m,mode=1777

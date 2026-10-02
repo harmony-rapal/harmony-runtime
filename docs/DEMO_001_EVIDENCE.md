@@ -2,6 +2,10 @@
 
 ## Current authoritative KVM results
 
+Follow-up: [demo-only packaging verification and lifecycle](DEMO_001_PACKAGING.md).
+The isolated demo validation was approved with the limitations below acknowledged;
+FULL_RELEASE_ACTIVATION=HOLD remains unchanged.
+
 Repository: harmony-rapal/harmony-runtime; branch: harmony/demo-001; issue: #2.
 Exact starting HEAD: 32f9386a52015b679f8b794dad84491cf39f0d5e, clean.
 A separate demo checkout was used. The existing main checkout remained clean at
