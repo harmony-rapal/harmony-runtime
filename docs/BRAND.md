@@ -1,6 +1,6 @@
 # Brand
 - Official product name: **harmony runtime** (lowercase).
-- Core terms: Madang (마당), Mok (몫), Sunsu (선수), Baton (바통).
+- Core terms: Madang (마당), Mok (몫), Player (선수), Baton (바통).
 - Original vector h mark: [logo-mark.svg](assets/logo-mark.svg).
 - Wordmark: [logo.svg](assets/logo.svg). The wordmark embeds the mark and is self-contained.
 - Landscape: [landscape.svg](assets/landscape.svg), reused by the hero and deployment section.

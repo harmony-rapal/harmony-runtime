@@ -11,7 +11,7 @@ FULL_RELEASE_ACTIVATION=HOLD. No automatic merge to main.
 
 - Landing hero names AI-agent development teams of 1–10, command copy/paste pain,
   human authority, execution identity and evidence, with demo and local-run CTAs.
-  Existing Madang/Mok/Sunsu/Baton philosophy remains below the product section.
+  Existing Madang/Mok/Player/Baton philosophy remains below the product section.
 - Python 3.12 standard-library local server, no dependencies or credentials.
   Fixed content and file name; no shell, subprocess, arbitrary command/path or
   production API. Private temporary session directory; exclusive file creation.

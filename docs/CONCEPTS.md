@@ -1,4 +1,4 @@
-# Madang · Mok · Sunsu · Baton
+# Madang · Mok · Player · Baton
 [English README](../README.md) · [한국어 README](../README_KO.md)
 
 These names express the product philosophy. They do not introduce additional runtime APIs.
@@ -7,11 +7,11 @@ These names express the product philosophy. They do not introduce additional run
 |---|---|---|
 | Madang (마당) | A shared workspace where humans and AI meet. | 사람과 AI가 함께 만나는 열린 작업 공간. |
 | Mok (몫) | A boundary of responsibility and authority. | 각 주체가 가진 책임과 권한의 경계. |
-| Sunsu (선수) | An active participant who executes. | 실행을 담당하는 능동적 주체. |
+| Player (선수) | An active participant who executes. | 실행을 담당하는 능동적 주체. |
 | Baton (바통) | A trusted handoff of authority. | 신뢰를 기반으로 한 승인과 책임의 전달. |
 
 ## From a shared objective to accountable execution
-In Madang, a human and AI can develop an objective. A Mok makes the scope, responsibility and authority explicit. A Sunsu carries out the authorized work. A Baton represents a trusted handoff of authority, with approval and evidence connecting the handoff to its result.
+In Madang, a human and AI can develop an objective. A Mok makes the scope, responsibility and authority explicit. A Player carries out the authorized work. A Baton represents a trusted handoff of authority, with approval and evidence connecting the handoff to its result.
 
 For example, AI can propose a documentation change. A human authorizes its bounded scope; the executing participant makes the change; the diff and verification results provide evidence. This is a conceptual example, not an automated workflow supplied by this release.
 

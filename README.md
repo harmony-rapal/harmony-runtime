@@ -3,7 +3,7 @@
 
 [한국어](README_KO.md) · [Vision](VISION.md) · [Core concepts](docs/CONCEPTS.md) · [Architecture](docs/ARCHITECTURE.md)
 
-**AI can propose. Humans authorize. Sunsu executes. Evidence proves.**
+**AI can propose. Humans authorize. Player executes. Evidence proves.**
 
 ## For AI-agent development teams of 1–10
 
@@ -51,7 +51,7 @@ This is a development source baseline. [R5C-D2 evidence package verification pas
 |---|---|
 | Madang (마당) | A shared workspace where humans and AI meet. |
 | Mok (몫) | A boundary of responsibility and authority. |
-| Sunsu (선수) | An active participant who executes. |
+| Player (선수) | An active participant who executes. |
 | Baton (바통) | A trusted handoff of authority. |
 
 These are product philosophy terms, not additional implemented APIs. [Read the bilingual guide](docs/CONCEPTS.md).

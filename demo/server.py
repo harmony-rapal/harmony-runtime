@@ -24,7 +24,7 @@ class Session:
             'baton': secrets.token_hex(16),
             'action': 'Create hello.txt with fixed demo text',
             'mok': 'One new file in this session’s temporary sandbox',
-            'sunsu': 'demo-local-worker (process identity; not authenticated)',
+            'player': 'demo-local-worker (process identity; not authenticated)',
             'risk': 'Low: fixed file write; no shell, network, credentials or deploy',
             'authority': 'One local demo decision; no production authority',
         }
@@ -52,7 +52,7 @@ class Session:
             evidence = hashlib.sha256((self.root / 'hello.txt').read_bytes()).hexdigest()
         receipt = dict(status='FINAL', decision=decision,
                        approver='local-demo-human (self-asserted; not authenticated)',
-                       execution_identity=self.proposal['sunsu'] if evidence else None,
+                       execution_identity=self.proposal['player'] if evidence else None,
                        exit_status=0 if evidence else None, executed=bool(evidence),
                        packet_sha256=self.packet_sha256,
                        evidence_sha256=evidence,
