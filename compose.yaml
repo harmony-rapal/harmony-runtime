@@ -1,0 +1,14 @@
+services:
+  demo:
+    build: .
+    command: ["python3", "-B", "-m", "demo.server", "--container", "--public-port", "${HARMONY_DEMO_PORT:-8765}"]
+    ports:
+      - "127.0.0.1:${HARMONY_DEMO_PORT:-8765}:8765"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 32
+    mem_limit: 128m

@@ -3,7 +3,61 @@
 
 [한국어](README_KO.md) · [Vision](VISION.md) · [Core concepts](docs/CONCEPTS.md) · [Architecture](docs/ARCHITECTURE.md)
 
-**AI can propose. Humans authorize. Sunsu executes. Evidence proves.**
+**AI can propose. Humans authorize. Player executes. Evidence proves.**
+
+## Today: for AI-agent development teams of 1–10
+
+**A governed execution layer for AI agents.**
+
+For teams starting to give AI agents shell, GitHub, staging or infrastructure access.
+
+Stop copy-pasting AI commands into privileged terminals. Let AI propose. Keep humans in authority. Preserve evidence of every execution. Inspect the approver, execution identity and result without rebuilding your workflow around a new platform.
+
+## 60-second Baton demo
+
+From the repository root, with Python 3.12 and no dependencies or credentials:
+
+```bash
+python3 -m demo.server
+```
+
+Open **http://localhost:8765/demo.html**. Inspect Proposal → Baton → Human Gate, choose **REJECT** (no file), then **New proposal** and **APPROVE** (one fixed file in a private temporary sandbox). Inspect output text, SHA-256 evidence, exit status, packet ID and FINAL receipt. Stop with Ctrl+C; temporary demo files are removed. One shared session per server; this is a single-user educational demo.
+
+Docker packaging is included:
+
+```bash
+docker compose up --build
+```
+
+The container runs without root, publishes only to loopback, uses a read-only filesystem and a temporary writable sandbox. Docker config/build/up and browser decisions were verified on KVM. If port 8765 is occupied, use the tested isolated demo override (Compose must support `!override`):
+
+```bash
+docker compose -p harmony-demo-001-verification -f compose.yaml -f demo/compose.kvm.override.yaml up --build -d
+```
+
+Open **http://localhost:18765/demo.html** on the host. Stop with `docker compose -p harmony-demo-001-verification -f compose.yaml -f demo/compose.kvm.override.yaml down`. The Python command above is the dependency-free local fallback when port 8765 is free. Do not expose this demo server publicly.
+
+[Try the 60-second Baton demo](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
+
+[Demo packaging, configurable loopback ports, Python fallback and scoped cleanup](docs/DEMO_001_PACKAGING.md)
+
+The UI is implemented and connected to the local demo server. It is **not an installable PWA or remote phone approval service**. On static hosting it cannot execute actions. Demo approval and executor names are unauthenticated labels, and hashes are educational receipts, not signed telegraph Human Gate proofs. The demo does not call or change telegraph's canonical authority logic. No arbitrary commands, production deployment, credentials or payments are accepted.
+
+**FULL_RELEASE_ACTIVATION=HOLD**. This demonstration does not certify compliance or production readiness.
+
+## Better Players. A better Play.
+
+**Big Tech builds better Players. harmony builds a better Play.**
+
+The product vision starts with the work: **MOK → PLAYER → PLAY → ROK → REVIEW**.
+A MOK defines the outcome, scope, authority and evidence. Human, AI and Service
+are possible Players. Execution produces evidence and a work record (ROK);
+review should improve the next MOK and Player selection.
+
+Player selection considers capability, authority, privacy, cost and capacity.
+Quota availability is a signal, not permission to execute. Automated Player Pool
+routing, Challenge workflows, ROK analytics and Review-driven learning are future
+directions, not features supplied by this release. See [Vision](VISION.md).
 
 ## Vision
 A shared workspace where human intent, bounded authority, execution and evidence remain connected.
@@ -21,7 +75,7 @@ This is a development source baseline. [R5C-D2 evidence package verification pas
 |---|---|
 | Madang (마당) | A shared workspace where humans and AI meet. |
 | Mok (몫) | A boundary of responsibility and authority. |
-| Sunsu (선수) | An active participant who executes. |
+| Player (선수) | An active participant who executes. |
 | Baton (바통) | A trusted handoff of authority. |
 
 These are product philosophy terms, not additional implemented APIs. [Read the bilingual guide](docs/CONCEPTS.md).
@@ -73,4 +127,3 @@ Read [security guidance](SECURITY.md) before sharing operational artifacts.
 ## Branding and license
 Original geometric h mark and landscape inspired by 유영국's geometric abstraction; no artwork reproduction or endorsement is claimed. See [brand guidance](docs/BRAND.md).
 Code and documentation are licensed under [Apache License 2.0](LICENSE). See [NOTICE](NOTICE). Trademark rights are not granted; brand use is described in [brand guidance](docs/BRAND.md).
-

@@ -5,6 +5,39 @@
 
 **AI는 제안하고, 사람은 승인하며, 선수는 실행하고, 증거는 입증합니다.**
 
+## 더 나은 Player, 더 나은 Play
+
+**Big Tech builds better Players. harmony builds a better Play.**
+
+제품 비전은 **MOK → PLAYER → PLAY → ROK → REVIEW**입니다. 먼저 업무의
+목표·범위·권한·필요한 증거를 정하고, Human·AI·Service 가운데 적합한 Player를
+선택합니다. 실행의 증거와 기록(ROK)을 리뷰해 다음 MOK과 Player 선택을 개선합니다.
+
+Player 선택에는 능력, 권한, 개인정보 경계, 비용과 capacity가 함께 필요합니다.
+남은 quota는 선택 신호이며 실행 권한을 부여하지 않습니다. 자동 Player Pool routing,
+Challenge workflow, ROK 분석과 Review 기반 학습은 향후 방향이며 현재 구현 기능이
+아닙니다. [비전](VISION_KO.md)을 확인하세요.
+
+## 현재: AI-agent 개발팀 1–10명을 위한 실행 거버넌스
+
+AI 명령을 권한 있는 터미널에 복사해서 실행하는 팀을 위한 데모입니다. AI가 제안하고 사람이 결정하며, 승인자·실행 identity·결과 evidence를 확인합니다.
+
+## 60초 Baton 데모
+
+저장소 루트에서 Python 3.12로 실행합니다. 추가 패키지나 credential은 필요 없습니다.
+
+```bash
+python3 -m demo.server
+```
+
+http://localhost:8765/demo.html 에서 REJECT → New proposal → APPROVE를 체험하세요. 거절은 파일을 만들지 않으며, 승인은 임시 sandbox에 고정 파일 하나만 만듭니다. 내용 hash, exit status, FINAL receipt를 확인할 수 있습니다. Ctrl+C로 종료하면 임시 파일을 정리합니다.
+
+`docker compose up --build` 구성도 포함했습니다. HQ02에는 Docker가 없어 Docker 실행은 미검증입니다. 위 Python 실행은 검증된 fallback입니다.
+
+모바일 형태 UI는 로컬 데모 서버에 연결된 구현입니다. 설치형 PWA·원격 휴대폰 승인·cloud 서비스는 구현되지 않았습니다. 정적 페이지는 실행할 수 없는 시각적 preview입니다. 데모 identity는 인증된 사람이 아니며 receipt는 서명된 telegraph 운영 receipt가 아닙니다. 단일 사용자용이며 공개 서버로 노출하지 마세요.
+
+**FULL_RELEASE_ACTIVATION=HOLD**를 유지합니다. [검증 보고서](docs/DEMO_001_EVIDENCE.md).
+
 ## Vision — 비전
 사람의 의도, 한정된 권한, 실행과 증거를 연결하는 공동 작업 공간을 지향합니다.
 
@@ -21,7 +54,7 @@ AI와 협업할 때는 책임의 경계와 검증 가능한 전달이 필요합�
 |---|---|
 | Madang (마당) | 사람과 AI가 함께 만나는 열린 작업 공간. |
 | Mok (몫) | 각 주체가 가진 책임과 권한의 경계. |
-| Sunsu (선수) | 실행을 담당하는 능동적 주체. |
+| Player (선수) | 실행을 담당하는 능동적 주체. |
 | Baton (바통) | 신뢰를 기반으로 한 승인과 책임의 전달. |
 
 제품 철학을 표현하는 용어이며 추가 구현 API를 뜻하지 않습니다. [한영 개념 안내](docs/CONCEPTS.md).
