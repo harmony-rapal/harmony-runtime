@@ -1,0 +1,6 @@
+# Isolated HARMONY-DEMO-001 validation; preserve existing port 8765 services.
+services:
+  demo:
+    command: ["python3", "-B", "-m", "demo.server", "--container", "--public-port", "18765"]
+    ports: !override
+      - "127.0.0.1:18765:8765"

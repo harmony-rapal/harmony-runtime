@@ -80,7 +80,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def valid_host(self):
-        return self.headers.get('Host') in (f'localhost:{self.server.server_port}', f'127.0.0.1:{self.server.server_port}')
+        return self.headers.get('Host') in self.server.local_hosts
 
     def do_GET(self):
         if not self.valid_host():
@@ -101,7 +101,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         origin = self.headers.get('Origin')
-        if not self.valid_host() or origin not in (f'http://localhost:{self.server.server_port}', f'http://127.0.0.1:{self.server.server_port}'):
+        if not self.valid_host() or origin != 'http://' + self.headers.get('Host', ''):
             return self.reply(403, {'error': 'Same-origin local request required'})
         try:
             length = int(self.headers.get('Content-Length', '0'))
@@ -131,8 +131,12 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(500, {'error': 'Sandbox write failed; no FINAL receipt issued'})
 
 
-def make_server(host='127.0.0.1', port=8765):
+def make_server(host='127.0.0.1', port=8765, public_port=None):
+    if public_port is not None and not 1 <= public_port <= 65535:
+        raise ValueError('Public port must be between 1 and 65535')
     server = HTTPServer((host, port), Handler)
+    local_port = server.server_port if public_port is None else public_port
+    server.local_hosts = (f'localhost:{local_port}', f'127.0.0.1:{local_port}')
     server.session = Session()
     return server
 
@@ -140,9 +144,10 @@ def make_server(host='127.0.0.1', port=8765):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--container', action='store_true', help='Bind all interfaces inside a container only')
+    parser.add_argument('--public-port', type=int, help='Loopback port published by Docker; no remote hosts accepted')
     args = parser.parse_args()
-    server = make_server('0.0.0.0' if args.container else '127.0.0.1')
-    print('harmony runtime demo: http://localhost:8765/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
+    server = make_server('0.0.0.0' if args.container else '127.0.0.1', public_port=args.public_port)
+    print(f'harmony runtime demo: http://localhost:{args.public_port or 8765}/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

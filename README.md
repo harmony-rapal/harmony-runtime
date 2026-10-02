@@ -29,7 +29,13 @@ Docker packaging is included:
 docker compose up --build
 ```
 
-The container runs without root, publishes only to loopback, uses a read-only filesystem and a temporary writable sandbox. **Docker execution is unverified on HQ02: Docker is not installed.** The Python command above is the verified local fallback. Do not expose this demo server publicly.
+The container runs without root, publishes only to loopback, uses a read-only filesystem and a temporary writable sandbox. Docker config/build/up and browser decisions were verified on KVM. If port 8765 is occupied, use the tested isolated demo override (Compose must support `!override`):
+
+```bash
+docker compose -p harmony-demo-001-verification -f compose.yaml -f demo/compose.kvm.override.yaml up --build -d
+```
+
+Open **http://localhost:18765/demo.html** on the host. Stop with `docker compose -p harmony-demo-001-verification -f compose.yaml -f demo/compose.kvm.override.yaml down`. The Python command above is the dependency-free local fallback when port 8765 is free. Do not expose this demo server publicly.
 
 [Try the 60-second Baton demo](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
 
@@ -119,4 +125,3 @@ Read [security guidance](SECURITY.md) before sharing operational artifacts.
 ## Branding and license
 Original geometric h mark and landscape inspired by 유영국's geometric abstraction; no artwork reproduction or endorsement is claimed. See [brand guidance](docs/BRAND.md).
 Code and documentation are licensed under [Apache License 2.0](LICENSE). See [NOTICE](NOTICE). Trademark rights are not granted; brand use is described in [brand guidance](docs/BRAND.md).
-

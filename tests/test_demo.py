@@ -72,3 +72,18 @@ class DemoTests(unittest.TestCase):
             with self.assertRaises(HTTPError) as err:
                 self.call(path)
             self.assertEqual(err.exception.code, 404)
+
+    def test_published_loopback_port_and_exact_origin(self):
+        self.server.local_hosts = ('localhost:18765', '127.0.0.1:18765')
+        state = self.call('/api/session', host='localhost:18765')
+        for host, origin in [('localhost:8765', 'http://localhost:8765'),
+                             ('attacker.invalid:18765', 'http://attacker.invalid:18765'),
+                             ('localhost:18765', 'http://127.0.0.1:18765')]:
+            with self.assertRaises(HTTPError) as err:
+                self.call('/api/decision', {'decision': 'APPROVE', 'token': state['token']}, origin, host)
+            self.assertEqual(err.exception.code, 403)
+        self.assertEqual(list(self.server.session.root.iterdir()), [])
+        result = self.call('/api/decision', {'decision': 'APPROVE', 'token': state['token']},
+                           'http://localhost:18765', 'localhost:18765')
+        self.assertEqual(result['receipt']['status'], 'FINAL')
+        self.assertEqual([p.name for p in self.server.session.root.iterdir()], ['hello.txt'])
