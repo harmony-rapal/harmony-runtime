@@ -24,6 +24,7 @@ import stat
 import tempfile
 import unittest
 from datetime import datetime, timezone
+from dataclasses import replace
 from unittest.mock import MagicMock, patch
 
 from telegraph.actuator_protocol import format_error_response, format_ok_response
@@ -785,28 +786,23 @@ class TestB4EnforcePermittedUser(BaseBlockerTest):
 
     def test_b4_runner_handle_request_rejects_wrong_effective_uid_before_launch(self):
         """RunnerServer._handle_request must reject launch if effective UID != profile.permitted_user."""
+        current_uid = os.geteuid()
+        current_user = pwd.getpwuid(current_uid).pw_name
+        other_user = next(user for user in pwd.getpwall() if user.pw_uid != current_uid)
+        # Establish the same startup invariant as production, using this test's
+        # real OS identity. The immutable production registry is not changed.
+        startup_profile = replace(get_profile("agy-builder-v1"), permitted_user=current_user)
+        request_profile = replace(startup_profile, profile_id="wrong-user-profile-test",
+                                  permitted_user=other_user.pw_name)
         sock_path = os.path.join(self.run_dir, "runner_test2.sock")
         config = RunnerConfig(
             socket_path=sock_path,
-            allowed_actuator_uid=os.geteuid() + 1,
+            allowed_actuator_uid=other_user.pw_uid,
             expected_socket_gid=os.getegid(),
             agy_path=self.bin_path,
             agy_sha256=self.bin_sha256,
             profile_id="agy-builder-v1",
         )
-        server = RunnerServer(config)
-
-        # Profile with permitted_user="root" (UID 0 != current UID 10001)
-        root_profile = BuilderProfile(
-            profile_id="root-profile-test",
-            executable=self.bin_path,
-            fixed_args=(),
-            timeout_seconds=30,
-            allowed_env_names=(),
-            execution_policy="HEADLESS",
-            permitted_user="root",
-        )
-
         raw_req = json.dumps({
             "command": "RUN_BUILDER",
             "packet_sha256": self.packet_sha,
@@ -814,18 +810,22 @@ class TestB4EnforcePermittedUser(BaseBlockerTest):
             "objective": "test",
             "repo_root": self.repo_root,
             "base_commit_oid": self.base_commit,
-            "profile_id": "root-profile-test",
+            "profile_id": request_profile.profile_id,
         }).encode("utf-8")
 
-        with patch("telegraph.runner_service.get_profile", return_value=root_profile), \
-             patch("telegraph.runner_service.verify_git_head"):
-            current_uid = os.geteuid()
-            if current_uid != 0:
-                resp = server._handle_request(raw_req)
-                self.assertEqual(resp["status"], "ERROR")
-                self.assertEqual(resp["error_code"], "PERMITTED_USER_MISMATCH")
-                self.assertFalse(resp["launched"])
-                self.assertIn("does not match profile.permitted_user", resp["message"])
+        profiles = {profile.profile_id: profile for profile in (startup_profile, request_profile)}
+        with patch("telegraph.runner_service.get_profile", side_effect=profiles.get), \
+             patch("telegraph.runner_service.verify_git_head"), \
+             patch("telegraph.runner_service.launch_runner_process") as launch:
+            server = RunnerServer(config)
+            self.addCleanup(server.close)
+            resp = server._handle_request(raw_req)
+            self.assertEqual(resp["status"], "ERROR")
+            self.assertEqual(resp["error_code"], "PERMITTED_USER_MISMATCH")
+            self.assertFalse(resp["launched"])
+            self.assertIn("does not match profile.permitted_user", resp["message"])
+            self.assertNotIn("claim-001", server._executed_claims)
+            launch.assert_not_called()
 
 
 class TestPreservedSemantics(BaseBlockerTest):
