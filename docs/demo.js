@@ -13,6 +13,24 @@ function render(data) {
   el('approve').disabled = el('reject').disabled = !!data.receipt;
   el('new').hidden = !data.receipt;
   el('result').hidden = !data.receipt;
+  el('evidence-summary').replaceChildren();
+  if (data.receipt) {
+    for (const [label, value] of [
+      ['FINAL receipt', data.receipt.status],
+      ['Human decision', data.receipt.decision],
+      ['Approver', data.receipt.approver],
+      ['Execution identity', data.receipt.execution_identity ?? 'None · rejected'],
+      ['Player execution', data.receipt.executed ? 'One sandbox file created' : 'No-op'],
+      ['Exit status', data.receipt.exit_status ?? 'Not executed'],
+      ['Evidence SHA-256', data.receipt.evidence_sha256 ?? 'None · rejected'],
+      ['Receipt SHA-256', data.receipt.receipt_sha256],
+      ['Output', data.receipt.output_text ?? 'None']
+    ]) {
+      const term = document.createElement('dt'); term.textContent = label;
+      const valueNode = document.createElement('dd'); valueNode.textContent = value;
+      el('evidence-summary').append(term, valueNode);
+    }
+  }
   el('receipt').textContent = data.receipt ? JSON.stringify(data.receipt, null, 2) : '';
   el('message').textContent = data.receipt ? (data.receipt.executed ? 'Executed: one sandbox file. Content and SHA-256 below.' : 'Rejected: no execution, no file, no exit status.') : 'Inspect the scope, then choose. This Baton can be consumed once.';
 }

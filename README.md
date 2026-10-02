@@ -5,23 +5,11 @@
 
 **AI can propose. Humans authorize. Player executes. Evidence proves.**
 
-## Better Players. A better Play.
-
-**Big Tech builds better Players. harmony builds a better Play.**
-
-The product vision starts with the work: **MOK → PLAYER → PLAY → ROK → REVIEW**.
-A MOK defines the outcome, scope, authority and evidence. Human, AI and Service
-are possible Players. Execution produces evidence and a work record (ROK);
-review should improve the next MOK and Player selection.
-
-Player selection considers capability, authority, privacy, cost and capacity.
-Quota availability is a signal, not permission to execute. Automated Player Pool
-routing, Challenge workflows, ROK analytics and Review-driven learning are future
-directions, not features supplied by this release. See [Vision](VISION.md).
-
 ## Today: for AI-agent development teams of 1–10
 
 **A governed execution layer for AI agents.**
+
+For teams starting to give AI agents shell, GitHub, staging or infrastructure access.
 
 Stop copy-pasting AI commands into privileged terminals. Let AI propose. Keep humans in authority. Preserve evidence of every execution. Inspect the approver, execution identity and result without rebuilding your workflow around a new platform.
 
@@ -43,11 +31,25 @@ docker compose up --build
 
 The container runs without root, publishes only to loopback, uses a read-only filesystem and a temporary writable sandbox. **Docker execution is unverified on HQ02: Docker is not installed.** The Python command above is the verified local fallback. Do not expose this demo server publicly.
 
-[Try the mobile-shaped UI](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
+[Try the 60-second Baton demo](docs/demo.html) · [Validation report](docs/DEMO_001_EVIDENCE.md)
 
 The UI is implemented and connected to the local demo server. It is **not an installable PWA or remote phone approval service**. On static hosting it cannot execute actions. Demo approval and executor names are unauthenticated labels, and hashes are educational receipts, not signed telegraph Human Gate proofs. The demo does not call or change telegraph's canonical authority logic. No arbitrary commands, production deployment, credentials or payments are accepted.
 
 **FULL_RELEASE_ACTIVATION=HOLD**. This demonstration does not certify compliance or production readiness.
+
+## Better Players. A better Play.
+
+**Big Tech builds better Players. harmony builds a better Play.**
+
+The product vision starts with the work: **MOK → PLAYER → PLAY → ROK → REVIEW**.
+A MOK defines the outcome, scope, authority and evidence. Human, AI and Service
+are possible Players. Execution produces evidence and a work record (ROK);
+review should improve the next MOK and Player selection.
+
+Player selection considers capability, authority, privacy, cost and capacity.
+Quota availability is a signal, not permission to execute. Automated Player Pool
+routing, Challenge workflows, ROK analytics and Review-driven learning are future
+directions, not features supplied by this release. See [Vision](VISION.md).
 
 ## Vision
 A shared workspace where human intent, bounded authority, execution and evidence remain connected.
