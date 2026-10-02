@@ -5,7 +5,21 @@
 
 **AI can propose. Humans authorize. Player executes. Evidence proves.**
 
-## For AI-agent development teams of 1–10
+## Better Players. A better Play.
+
+**Big Tech builds better Players. harmony builds a better Play.**
+
+The product vision starts with the work: **MOK → PLAYER → PLAY → ROK → REVIEW**.
+A MOK defines the outcome, scope, authority and evidence. Human, AI and Service
+are possible Players. Execution produces evidence and a work record (ROK);
+review should improve the next MOK and Player selection.
+
+Player selection considers capability, authority, privacy, cost and capacity.
+Quota availability is a signal, not permission to execute. Automated Player Pool
+routing, Challenge workflows, ROK analytics and Review-driven learning are future
+directions, not features supplied by this release. See [Vision](VISION.md).
+
+## Today: for AI-agent development teams of 1–10
 
 **A governed execution layer for AI agents.**
 

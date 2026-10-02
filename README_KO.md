@@ -5,7 +5,20 @@
 
 **AI는 제안하고, 사람은 승인하며, 선수는 실행하고, 증거는 입증합니다.**
 
-## AI-agent 개발팀 1–10명을 위한 실행 거버넌스
+## 더 나은 Player, 더 나은 Play
+
+**Big Tech builds better Players. harmony builds a better Play.**
+
+제품 비전은 **MOK → PLAYER → PLAY → ROK → REVIEW**입니다. 먼저 업무의
+목표·범위·권한·필요한 증거를 정하고, Human·AI·Service 가운데 적합한 Player를
+선택합니다. 실행의 증거와 기록(ROK)을 리뷰해 다음 MOK과 Player 선택을 개선합니다.
+
+Player 선택에는 능력, 권한, 개인정보 경계, 비용과 capacity가 함께 필요합니다.
+남은 quota는 선택 신호이며 실행 권한을 부여하지 않습니다. 자동 Player Pool routing,
+Challenge workflow, ROK 분석과 Review 기반 학습은 향후 방향이며 현재 구현 기능이
+아닙니다. [비전](VISION_KO.md)을 확인하세요.
+
+## 현재: AI-agent 개발팀 1–10명을 위한 실행 거버넌스
 
 AI 명령을 권한 있는 터미널에 복사해서 실행하는 팀을 위한 데모입니다. AI가 제안하고 사람이 결정하며, 승인자·실행 identity·결과 evidence를 확인합니다.
 
