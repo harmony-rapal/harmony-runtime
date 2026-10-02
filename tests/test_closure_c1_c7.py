@@ -24,6 +24,7 @@ import ast
 import hashlib
 import json
 import os
+import pwd
 import shutil
 import stat
 import struct
@@ -31,6 +32,7 @@ import tempfile
 import threading
 import unittest
 from datetime import datetime, timezone
+from dataclasses import replace
 from unittest.mock import MagicMock, patch
 
 from telegraph.actuator_protocol import format_error_response, format_ok_response
@@ -173,7 +175,11 @@ class TestClosureC1(BaseClosureTest):
         os.chmod(socket_parent, 0o770)
         sock_path = os.path.join(socket_parent, "runner.sock")
         current_uid = os.geteuid()
-        actuator_uid = 9999 if current_uid != 9999 else 9998
+        actuator_uid = next(user.pw_uid for user in pwd.getpwall() if user.pw_uid != current_uid)
+        # Supply a test-only profile whose real OS identity satisfies startup.
+        # SO_PEERCRED, effective UID and peer authorization remain unpatched.
+        startup_profile = replace(get_profile("agy-builder-v1"),
+                                  permitted_user=pwd.getpwuid(current_uid).pw_name)
 
         config = RunnerConfig(
             socket_path=sock_path,
@@ -182,28 +188,35 @@ class TestClosureC1(BaseClosureTest):
             agy_path=self.bin_path,
             agy_sha256=self.bin_sha256,
         )
-        server = RunnerServer(config)
+        with patch("telegraph.runner_service.get_profile", return_value=startup_profile):
+            server = RunnerServer(config)
         server.start()
 
         def _serve():
             server.handle_one_connection()
 
         t = threading.Thread(target=_serve, daemon=True)
-        t.start()
-
-        client = RunnerClient(sock_path)
-        with self.assertRaises(RunnerIPCError) as cm:
-            client.run_builder(
-                packet_sha256=self.packet_sha,
-                claim_id="claim-001",
-                objective="test",
-                repo_root=self.repo_root,
-                base_commit_oid=self.base_commit,
-            )
-        self.assertEqual(cm.exception.error_code, "SAME_UID_REJECTED")
-        self.assertIn("cannot establish distinct Runner authority", cm.exception.message)
-        server.close()
-        t.join(timeout=2.0)
+        try:
+            with patch.object(server, "_handle_request", wraps=server._handle_request) as handle_request, \
+                 patch("telegraph.runner_service.launch_runner_process") as launch:
+                t.start()
+                client = RunnerClient(sock_path)
+                with self.assertRaises(RunnerIPCError) as cm:
+                    client.run_builder(
+                        packet_sha256=self.packet_sha,
+                        claim_id="claim-001",
+                        objective="test",
+                        repo_root=self.repo_root,
+                        base_commit_oid=self.base_commit,
+                    )
+                self.assertEqual(cm.exception.error_code, "SAME_UID_REJECTED")
+                self.assertIn("cannot establish distinct Runner authority", cm.exception.message)
+                handle_request.assert_not_called()
+                launch.assert_not_called()
+        finally:
+            server.close()
+            t.join(timeout=2.0)
+        self.assertFalse(t.is_alive())
 
     def test_c1_runner_has_zero_ledger_access(self):
         telegraph_dir = os.path.join(os.path.dirname(__file__), "..", "telegraph")
