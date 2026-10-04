@@ -93,3 +93,28 @@ class DownloadCommandSafetyTests(unittest.TestCase):
             sys.path.remove(scripts)
             sys.modules.pop('prepare_download', None)
         self.assertIn("'https://example.test/download/$(touch SHOULD_NOT_RUN)/install.sh'", command)
+
+    def test_launcher_uses_curl_for_public_archive_and_local_python_install(self):
+        scripts_dir = Path(__file__).resolve().parents[1] / 'scripts'
+        if not (scripts_dir / 'prepare_download.py').exists():
+            self.skipTest('source-only download preparation helper is not packaged')
+        scripts = str(scripts_dir)
+        sys.path.insert(0, scripts)
+        try:
+            prepare_download = importlib.import_module('prepare_download')
+            launcher = prepare_download.render_launcher(
+                'https://example.test/download/abc',
+                '1' * 64,
+                'harmony-demo-abc.zip',
+                '2' * 64,
+                'a' * 40,
+            )
+        finally:
+            sys.path.remove(scripts)
+            sys.modules.pop('prepare_download', None)
+        self.assertIn(
+            "https://example.test/download/abc/harmony-demo-abc.zip' -o \"$work/demo.zip\"",
+            launcher,
+        )
+        self.assertIn('--archive "$work/demo.zip"', launcher)
+        self.assertNotIn('--archive \'https://example.test/', launcher)
