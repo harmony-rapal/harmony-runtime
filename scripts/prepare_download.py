@@ -4,8 +4,18 @@ import hashlib
 import html
 import json
 from pathlib import Path
+import shlex
 from urllib.parse import urlparse
 from package_source import build, git
+
+
+def render_install_command(base):
+    """Return a copy/paste-safe shell command for the published installer URL."""
+    install_url = shlex.quote(base.rstrip('/') + '/install.sh')
+    return (
+        "curl --fail --location --proto '=https' --proto-redir '=https' "
+        f"{install_url} -o harmony-install.sh && sh harmony-install.sh"
+    )
 
 
 def main():
@@ -31,21 +41,21 @@ def main():
     # URLs and hashes are fixed in this version's launcher, never resolved via latest.
     launcher = f"""#!/bin/sh
 set -eu
-[ \"$(uname -s)\" = Linux ] || {{ echo 'Linux only'; exit 1; }}
+[ "$(uname -s)" = Linux ] || {{ echo 'Linux only'; exit 1; }}
 command -v python3 >/dev/null || {{ echo 'Python 3.12 required; install it separately'; exit 1; }}
 command -v curl >/dev/null || {{ echo 'curl required; install it separately'; exit 1; }}
 command -v sha256sum >/dev/null || {{ echo 'sha256sum required'; exit 1; }}
 work=$(mktemp -d)
-trap 'rm -rf \"$work\"' EXIT HUP INT TERM
-curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' '{base}/install_demo.py' -o \"$work/install_demo.py\"
-printf '%s  %s\\n' '{installer_hash}' \"$work/install_demo.py\" | sha256sum --check --status
-python3 \"$work/install_demo.py\" --archive '{base}/{demo.name}' --sha256 '{demo_hash}' --destination \"$HOME/.local/share/harmony/demo-{sha[:12]}\" --run \"$@\"
+trap 'rm -rf "$work"' EXIT HUP INT TERM
+curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' '{base}/install_demo.py' -o "$work/install_demo.py"
+printf '%s  %s\\n' '{installer_hash}' "$work/install_demo.py" | sha256sum --check --status
+python3 "$work/install_demo.py" --archive '{base}/{demo.name}' --sha256 '{demo_hash}' --destination "$HOME/.local/share/harmony/demo-{sha[:12]}" --run "$@"
 """
     (args.output/'install.sh').write_text(launcher)
     (args.output/'DOWNLOAD.json').write_text(json.dumps(dict(source_commit=sha, base_url=base,
         platform='Linux', requires='Python 3.12, curl, sha256sum', full_release_activation='HOLD',
         demo_archive=demo.name, demo_sha256=demo_hash, installer_sha256=installer_hash), indent=2)+'\n')
-    command = f"curl --fail --location --proto '=https' --proto-redir '=https' {base}/install.sh -o harmony-install.sh && sh harmony-install.sh"
+    command = render_install_command(base)
     page = f"""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>harmony runtime · Linux demo download</title><body><h1>harmony runtime · Linux demo</h1><p>Interactive prototype/demo. Python 3.12+, curl and sha256sum required. No root or sudo. FULL_RELEASE_ACTIVATION=HOLD.</p><p>Version: {sha}</p><pre>{html.escape(command)}</pre><p>Visit localhost:18770/demo.html after installation. Ctrl+C stops the demo. No production authority or AI credentials are installed.</p><ul><li><a href="{demo.name}">Demo source ZIP</a></li><li><a href="{next(p.name for p in packages if p.name.startswith('harmony-runtime-'))}">Runtime source ZIP</a></li><li><a href="SHA256SUMS">Archive checksums</a></li><li><a href="install.sh">Inspect installer entry point</a></li></ul></body></html>"""
     (args.output/'index.html').write_text(page)
     print(args.output)
