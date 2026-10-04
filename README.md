@@ -5,6 +5,61 @@
 
 **AI can propose. Humans authorize. Player executes. Evidence proves.**
 
+
+**Big Tech builds better Players. Harmony builds a better Play.**
+
+Harmony is a **MOK-centered operating layer for Human + AI + Service**, not
+another multi-agent orchestrator. **You already have the Players. Now build a better Play.**
+
+**Use the AI you already have. Give each Player the MOK it does best.**
+
+Product direction: **MADANG → JUMUN → MOK → PLAYER → PLAY → ROK → REVIEW**.
+MADANG is the shared field; JUMUN expresses intent; MOK makes the work contract explicit.
+The current implementation is the governed runtime and bounded local demo described below.
+
+## More Than
+
+| Harmony | More than |
+|---|---|
+| MADANG | WORKSPACE — a shared field of intent, authority and work |
+| JUMUN | PROMPT — an intent that becomes a work contract |
+| MOK | SHARE + ROLE — outcome, scope, authority, capacity, done and evidence |
+| PLAYER | AI + HUMAN + SERVICE — whoever can best carry out the MOK |
+| ROK | LOG — connected work, decisions, evidence and outcomes for Review |
+
+## MOK Designer · Product direction
+
+**Don't start by choosing an AI. Design the MOK first.**
+
+**MINIMUM INSTRUCTION, MAXIMUM CONTRACT.** Define WHAT, WHY, BOUNDARY,
+CAPACITY, AUTHORITY, DONE, EVIDENCE and HANDOFF. Leave HOW to the Player.
+MOK Designer is a product direction, not a shipped designer UI in this runtime.
+User-facing work records are called **ROK**. Existing internal SILROK protocol
+names, where present, remain stable; this language change does not migrate APIs or data.
+
+## Personal Free and Team / Enterprise · Planned offering
+
+**Free for individuals. Bring your own Players.**
+
+Personal is intended to be BYO AI and local-first: use your own AI accounts,
+APIs or local models, subject to each provider's supported integration and terms.
+The planned free experience includes core MOK, Player, Evidence, Baton and ROK;
+Harmony does not include or fund provider inference. This release supplies a
+local source runtime and demo, not the complete Personal product or integrations.
+
+**Your infrastructure. Your policy. Your ROK.**
+
+**Your Players may belong to them. The Play belongs to you.**
+
+Team / Enterprise is planned for independent installation: self-hosted, VPC or
+on-prem. Paid value comes from organizational complexity, shared ROK, policies,
+RBAC / SSO, support and SLA, rather than withholding the personal core loop.
+These are roadmap capabilities and a pricing direction, not available paid plans,
+verified enterprise packages or an SLA commitment. The intended independent mode
+requires no Harmony Cloud, ROK upload or mandatory telemetry; provider data egress
+still depends on the Players you choose. Docker demo packaging is not enterprise deployment.
+
+
 ## Today: for AI-agent development teams of 1–10
 
 **A governed execution layer for AI agents.**
@@ -47,9 +102,7 @@ The UI is implemented and connected to the local demo server. It is **not an ins
 
 ## Better Players. A better Play.
 
-**Big Tech builds better Players. harmony builds a better Play.**
-
-The product vision starts with the work: **MOK → PLAYER → PLAY → ROK → REVIEW**.
+The product vision starts with the work: **MADANG → JUMUN → MOK → PLAYER → PLAY → ROK → REVIEW**.
 A MOK defines the outcome, scope, authority and evidence. Human, AI and Service
 are possible Players. Execution produces evidence and a work record (ROK);
 review should improve the next MOK and Player selection.
@@ -73,7 +126,7 @@ This is a development source baseline. [R5C-D2 evidence package verification pas
 ## Core Concepts
 | Concept | Meaning |
 |---|---|
-| Madang (마당) | A shared workspace where humans and AI meet. |
+| Madang (마당) | A shared field where Human, AI and Service Players connect intent, authority and work. |
 | Mok (몫) | A boundary of responsibility and authority. |
 | Player (선수) | An active participant who executes. |
 | Baton (바통) | A trusted handoff of authority. |
@@ -104,21 +157,15 @@ python3 -m unittest discover -v
 python3 -m compileall -q telegraph tests
 ```
 
-## Deployment
-| Direction | Status |
-|---|---|
-| Personal Cloud — individuals | Coming soon |
-| Team Cloud — team collaboration | Coming soon |
-| Independent Server — independent operation | Coming soon |
+## Deployment and roadmap
 
-The static landing page is in `docs/index.html`. See [public release preparation](docs/PUBLIC_RELEASE.md) for GitHub Pages setup and remaining release gates.
+Today: local Python runtime and sandbox demo; Docker demo packaging is included
+but execution remains unverified on HQ02. The static homepage is `docs/index.html`.
 
-## Roadmap
-- Pin worker versions during sealed execution.
-- Bind bounded worker output to canonical evidence.
-- Develop Personal Cloud, Team Cloud and Independent Server deployment paths.
-
-These are future directions, not delivered capabilities.
+Planned: Personal Free (BYO AI / local-first), Team collaboration and independent
+Enterprise installation (self-host / VPC / on-prem), shared ROK, policy and RBAC / SSO.
+Worker pinning and canonical output evidence remain release blockers.
+See [known limitations](KNOWN_LIMITATIONS.md) and [public release preparation](docs/PUBLIC_RELEASE.md).
 
 ## Community
 Use this repository's issues for discussion of the source. Contact: [harmony.rapal@gmail.com](mailto:harmony.rapal@gmail.com).

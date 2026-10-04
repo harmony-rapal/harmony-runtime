@@ -1,8 +1,8 @@
 # harmony runtime — 비전
 
-**Big Tech builds better Players. harmony builds a better Play.**
+**Big Tech builds better Players. Harmony builds a better Play.**
 
-**MOK → PLAYER → PLAY → ROK → REVIEW**. 업무에서 출발합니다.
+**MADANG → JUMUN → MOK → PLAYER → PLAY → ROK → REVIEW**. 업무에서 출발합니다.
 마당에서 목표를 구체화하고, 범위가 정해진 MOK으로 나눕니다. 업무가 요구하는
 능력·권한·개인정보 경계·비용·capacity·증거 조건에 맞는 Player를 선택합니다.
 Player는 승인된 범위에서 Play를 수행합니다. Baton은 권한과 증거를 연결하고,
@@ -25,8 +25,40 @@ telemetry 수집을 추가하지 않습니다.
 
 “마지막 토큰 한 개까지, 너의 몫을 다해라”
 
-Personal Cloud·Team Cloud·Independent Server는 향후 계획입니다.
+Personal Free·Team·독립 Enterprise 설치는 향후 계획입니다.
 FULL_RELEASE_ACTIVATION=HOLD를 유지합니다. 운영 준비 완료나 compliance 인증을
 주장하지 않습니다.
 
 [핵심 개념](docs/CONCEPTS.md) · [English](VISION.md)
+
+## More Than
+
+| Harmony | More than |
+|---|---|
+| MADANG | WORKSPACE — a shared field of intent, authority and work |
+| JUMUN | PROMPT — an intent that becomes a work contract |
+| MOK | SHARE + ROLE — outcome, scope, authority, capacity, done and evidence |
+| PLAYER | AI + HUMAN + SERVICE — whoever can best carry out the MOK |
+| ROK | LOG — connected work, decisions, evidence and outcomes for Review |
+
+## MOK Designer · 제품 방향
+
+**Don't start by choosing an AI. Design the MOK first.**
+
+**MINIMUM INSTRUCTION, MAXIMUM CONTRACT.** Define WHAT, WHY, BOUNDARY,
+CAPACITY, AUTHORITY, DONE, EVIDENCE and HANDOFF. Leave HOW to the Player.
+MOK Designer is a product direction, not a shipped designer UI in this runtime.
+User-facing work records are called **ROK**. Existing internal SILROK protocol
+names, where present, remain stable; this language change does not migrate APIs or data.
+
+## Personal Free와 Team / Enterprise · 출시 방향
+
+**Free for individuals. Bring your own Players.**
+
+개인판은 BYO AI·local-first를 지향합니다. 사용자의 AI 계정·API·로컬 모델을 각 제공자의 지원 방식과 약관 안에서 연결합니다. 핵심 MOK·Player·Evidence·Baton·ROK 경험은 무료 제공 방향이며 모델 추론 비용은 사용자가 부담합니다. 현재 제공되는 것은 로컬 소스 runtime과 데모이며, 완성된 Personal 제품이나 모든 AI 연동이 아닙니다.
+
+**Your infrastructure. Your policy. Your ROK.**
+
+**Your Players may belong to them. The Play belongs to you.**
+
+Team / Enterprise는 self-host·VPC·on-prem 독립 설치를 지향합니다. 개인의 핵심 경험을 제한하지 않고 조직 복잡도·공유 ROK·정책·RBAC/SSO·지원/SLA에서 과금하는 방향입니다. 아직 출시된 요금제·검증된 기업 설치 패키지·SLA 약속이 아닙니다. 독립 설치에서는 Harmony Cloud·ROK 업로드·필수 telemetry 없이 운영하는 것을 목표로 합니다. AI 제공자로의 데이터 전송은 선택한 Player에 따라 달라집니다. Docker 데모 패키지를 기업 배포 제품으로 보아서는 안 됩니다.

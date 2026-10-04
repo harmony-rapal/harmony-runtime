@@ -5,11 +5,56 @@
 
 **AI는 제안하고, 사람은 승인하며, 선수는 실행하고, 증거는 입증합니다.**
 
+
+**Big Tech builds better Players. Harmony builds a better Play.**
+
+Harmony is a **MOK-centered operating layer for Human + AI + Service**, not
+another multi-agent orchestrator. **You already have the Players. Now build a better Play.**
+
+**Use the AI you already have. Give each Player the MOK it does best.**
+
+Product direction: **MADANG → JUMUN → MOK → PLAYER → PLAY → ROK → REVIEW**.
+MADANG is the shared field; JUMUN expresses intent; MOK makes the work contract explicit.
+The current implementation is the governed runtime and bounded local demo described below.
+
+하모니는 MOK 중심의 사람·AI·서비스 운영계층입니다. 마당에서 주문을 구체화하고 몫을 설계한 뒤 선수를 선택합니다. 아래 무료·기업 제공 정책은 출시 방향이며 현재 구현과 구분합니다.
+
+## More Than
+
+| Harmony | More than |
+|---|---|
+| MADANG | WORKSPACE — a shared field of intent, authority and work |
+| JUMUN | PROMPT — an intent that becomes a work contract |
+| MOK | SHARE + ROLE — outcome, scope, authority, capacity, done and evidence |
+| PLAYER | AI + HUMAN + SERVICE — whoever can best carry out the MOK |
+| ROK | LOG — connected work, decisions, evidence and outcomes for Review |
+
+## MOK Designer · 제품 방향
+
+**Don't start by choosing an AI. Design the MOK first.**
+
+**MINIMUM INSTRUCTION, MAXIMUM CONTRACT.** Define WHAT, WHY, BOUNDARY,
+CAPACITY, AUTHORITY, DONE, EVIDENCE and HANDOFF. Leave HOW to the Player.
+MOK Designer is a product direction, not a shipped designer UI in this runtime.
+User-facing work records are called **ROK**. Existing internal SILROK protocol
+names, where present, remain stable; this language change does not migrate APIs or data.
+
+## Personal Free와 Team / Enterprise · 출시 방향
+
+**Free for individuals. Bring your own Players.**
+
+개인판은 BYO AI·local-first를 지향합니다. 사용자의 AI 계정·API·로컬 모델을 각 제공자의 지원 방식과 약관 안에서 연결합니다. 핵심 MOK·Player·Evidence·Baton·ROK 경험은 무료 제공 방향이며 모델 추론 비용은 사용자가 부담합니다. 현재 제공되는 것은 로컬 소스 runtime과 데모이며, 완성된 Personal 제품이나 모든 AI 연동이 아닙니다.
+
+**Your infrastructure. Your policy. Your ROK.**
+
+**Your Players may belong to them. The Play belongs to you.**
+
+Team / Enterprise는 self-host·VPC·on-prem 독립 설치를 지향합니다. 개인의 핵심 경험을 제한하지 않고 조직 복잡도·공유 ROK·정책·RBAC/SSO·지원/SLA에서 과금하는 방향입니다. 아직 출시된 요금제·검증된 기업 설치 패키지·SLA 약속이 아닙니다. 독립 설치에서는 Harmony Cloud·ROK 업로드·필수 telemetry 없이 운영하는 것을 목표로 합니다. AI 제공자로의 데이터 전송은 선택한 Player에 따라 달라집니다. Docker 데모 패키지를 기업 배포 제품으로 보아서는 안 됩니다.
+
+
 ## 더 나은 Player, 더 나은 Play
 
-**Big Tech builds better Players. harmony builds a better Play.**
-
-제품 비전은 **MOK → PLAYER → PLAY → ROK → REVIEW**입니다. 먼저 업무의
+제품 비전은 **MADANG → JUMUN → MOK → PLAYER → PLAY → ROK → REVIEW**입니다. 먼저 업무의
 목표·범위·권한·필요한 증거를 정하고, Human·AI·Service 가운데 적합한 Player를
 선택합니다. 실행의 증거와 기록(ROK)을 리뷰해 다음 MOK과 Player 선택을 개선합니다.
 
@@ -52,7 +97,7 @@ AI와 협업할 때는 책임의 경계와 검증 가능한 전달이 필요합�
 ## Core Concepts — 핵심 개념
 | 개념 | 뜻 |
 |---|---|
-| Madang (마당) | 사람과 AI가 함께 만나는 열린 작업 공간. |
+| Madang (마당) | 사람·AI·서비스가 의도·권한·업무를 연결하는 공동의 마당. |
 | Mok (몫) | 각 주체가 가진 책임과 권한의 경계. |
 | Player (선수) | 실행을 담당하는 능동적 주체. |
 | Baton (바통) | 신뢰를 기반으로 한 승인과 책임의 전달. |
@@ -83,21 +128,15 @@ python3 -m unittest discover -v
 python3 -m compileall -q telegraph tests
 ```
 
-## Deployment — 배포
-| 방향 | 상태 |
-|---|---|
-| Personal Cloud — 개인 클라우드 | Coming soon |
-| Team Cloud — 팀 협업 클라우드 | Coming soon |
-| Independent Server — 독립 서버 | Coming soon |
+## Deployment and roadmap
 
-정적 홈페이지는 `docs/index.html`입니다. GitHub Pages 설정과 남은 공개 조건은 [공개 준비 안내](docs/PUBLIC_RELEASE.md)에 정리합니다.
+Today: local Python runtime and sandbox demo; Docker demo packaging is included
+but execution remains unverified on HQ02. The static homepage is `docs/index.html`.
 
-## Roadmap — 향후 계획
-- 봉인된 실행 동안 worker 버전을 고정합니다.
-- 제한된 worker 출력을 정식 증거에 연결합니다.
-- Personal Cloud, Team Cloud, Independent Server 배포 경로를 개발합니다.
-
-모두 향후 방향이며 제공 완료된 기능이 아닙니다.
+Planned: Personal Free (BYO AI / local-first), Team collaboration and independent
+Enterprise installation (self-host / VPC / on-prem), shared ROK, policy and RBAC / SSO.
+Worker pinning and canonical output evidence remain release blockers.
+See [known limitations](KNOWN_LIMITATIONS.md) and [public release preparation](docs/PUBLIC_RELEASE.md).
 
 ## Community — 커뮤니티
 소스 관련 논의는 저장소 이슈를 이용하세요. 연락처: [harmony.rapal@gmail.com](mailto:harmony.rapal@gmail.com).
