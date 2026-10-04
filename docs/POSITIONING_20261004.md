@@ -28,3 +28,7 @@ Branch: `harmony/positioning-rok-20261004`.
 - Complete green runtime suite requires the documented host identity prerequisite for the remaining B4 test.
 - Full production release activation remains HOLD. Personal Free, designer UI, automated Player routing, shared ROK / Review learning, enterprise installation, RBAC / SSO and paid support / SLA are roadmap directions, not newly implemented features.
 - Docker execution remains unverified on HQ02.
+
+## Hosted demo correction
+
+GitHub Pages has no /api backend. The hosted demo now uses an explicitly labelled browser simulation for reject/new proposal/approve and sample-output SHA-256. It never claims a file write, worker execution or signed receipt. Loopback hosting retains the real sandbox API. Non-JSON backend responses produce a readable local-server message. The logo links to the project-relative index page. Node syntax and simulation checks passed (including no fetch on hosted pages and single consumption). Local demo backend tests: four passed. Publication still requires review and merge.
