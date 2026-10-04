@@ -150,3 +150,29 @@ errors; see [demo validation](DEMO_001_EVIDENCE.md). No full-runtime PASS claime
 The packaging validation container, project network and local image were removed
 using the scoped down command above. Existing resources were preserved.
 DEMO_PACKAGING=PASS. FULL_RELEASE_ACTIVATION=HOLD.
+
+## Portable source-package follow-up — 2026-10-04
+
+From a committed repository checkout, generate both public source packages:
+
+```bash
+python3 scripts/package_source.py --output /tmp/harmony-source-packages
+```
+
+Use a new output directory. Files are read from the immutable committed HEAD,
+not the working directory; untracked files and local runtime state are excluded.
+The demo ZIP includes its exact application files, Docker/Compose packaging,
+license and this startup guide. The runtime ZIP additionally includes telegraph,
+unit tests, the synthetic mission fixture and selected public documentation.
+Both contain PACKAGE_MANIFEST.json with source commit and each file's hash/size;
+SHA256SUMS binds the resulting archives. Stable ZIP metadata makes rebuilding
+the same commit byte-for-byte reproducible. These are source packages, not
+prebuilt runtime images or production activation.
+
+The runtime package contains the portable Runner resolver tests. The demo
+container intentionally excludes runtime/tests and grants no production identity.
+GitHub Actions validates the extracted runtime suite and actually builds/runs
+the extracted demo package, checking Reject/Approve against the container and
+its filesystem before uploading verification artifacts. No registry publication
+or main merge is performed. Current evidence and remaining gates are recorded
+in [RUNTIME_PACKAGING_PATCH_001](RUNTIME_PACKAGING_PATCH_001.md).
