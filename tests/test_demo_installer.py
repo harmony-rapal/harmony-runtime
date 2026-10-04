@@ -1,6 +1,8 @@
 import hashlib
+import importlib
 import json
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 from zipfile import ZipFile
@@ -71,3 +73,22 @@ class DemoInstallerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'already exists'):
             install(archive, sha, self.target)
         self.assertEqual((existing/'sentinel').read_text(), 'preserve')
+
+
+class DownloadCommandSafetyTests(unittest.TestCase):
+    def test_rendered_install_url_is_shell_quoted(self):
+        scripts = str(Path(__file__).resolve().parents[1] / 'scripts')
+        sys.path.insert(0, scripts)
+        try:
+            prepare_download = importlib.import_module('prepare_download')
+            command = prepare_download.render_install_command(
+                'https://example.test/download/$(touch SHOULD_NOT_RUN)'
+            )
+        finally:
+            sys.path.remove(scripts)
+            sys.modules.pop('prepare_download', None)
+        self.assertIn("'https://example.test/download/$(touch SHOULD_NOT_RUN)/install.sh'", command)
+        self.assertNotIn(
+            "https://example.test/download/$(touch SHOULD_NOT_RUN)/install.sh -o",
+            command.replace("'https://example.test/download/$(touch SHOULD_NOT_RUN)/install.sh'", 'QUOTED')
+        )
