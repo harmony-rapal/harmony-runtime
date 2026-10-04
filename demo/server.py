@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import secrets
+import signal
 import tempfile
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -141,6 +142,11 @@ def make_server(host='127.0.0.1', port=8765, public_port=None):
     return server
 
 
+def _graceful_shutdown(_signum, _frame):
+    """Route SIGINT/SIGTERM through the same cleanup path."""
+    raise KeyboardInterrupt
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--container', action='store_true', help='Bind all interfaces inside a container only')
@@ -148,8 +154,13 @@ def main():
     parser.add_argument('--public-port', type=int, help='Loopback port published by Docker; no remote hosts accepted')
     args = parser.parse_args()
     server = make_server('0.0.0.0' if args.container else '127.0.0.1', port=args.port, public_port=args.public_port)
-    print(f'harmony runtime demo: http://localhost:{args.public_port or args.port}/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
     try:
+        # Background shells may start children with SIGINT ignored. Install both
+        # handlers explicitly so Ctrl+C, process-group cleanup and SIGTERM all
+        # converge on the same deterministic TemporaryDirectory cleanup path.
+        signal.signal(signal.SIGINT, _graceful_shutdown)
+        signal.signal(signal.SIGTERM, _graceful_shutdown)
+        print(f'harmony runtime demo: http://localhost:{args.public_port or args.port}/demo.html | FULL_RELEASE_ACTIVATION=HOLD', flush=True)
         server.serve_forever()
     except KeyboardInterrupt:
         pass
