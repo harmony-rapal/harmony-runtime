@@ -38,8 +38,11 @@ curl --fail --location --proto '=https' --proto-redir '=https' https://hab.rapal
 sh harmony-install.sh
 ```
 
-The launcher checks the Python installer's pinned SHA-256; Python checks the
-archive SHA-256, per-file manifest hashes, size bounds and ZIP path safety.
+The launcher uses curl for the public HTTPS transport of both the Python installer
+and demo archive, verifies both pinned SHA-256 values locally, then hands the local
+archive to Python. Python rechecks the archive SHA-256, per-file manifest hashes,
+size bounds and ZIP path safety. This keeps public network transport on one pinned
+client path while preserving fail-closed content verification.
 Installation is confined to ~/.local/share/harmony/demo-COMMIT_SHA_PREFIX.
 An existing installation is preserved and causes a clear stop. To install
 elsewhere pass --destination /your/new/directory. The demo runs in the foreground
