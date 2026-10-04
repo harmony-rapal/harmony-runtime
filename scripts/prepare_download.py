@@ -18,6 +18,24 @@ def render_install_command(base):
     )
 
 
+def render_launcher(base, installer_hash, demo_name, demo_hash, sha):
+    """Render the pinned launcher using curl for all public HTTPS downloads."""
+    return f"""#!/bin/sh
+set -eu
+[ "$(uname -s)" = Linux ] || {{ echo 'Linux only'; exit 1; }}
+command -v python3 >/dev/null || {{ echo 'Python 3.12 required; install it separately'; exit 1; }}
+command -v curl >/dev/null || {{ echo 'curl required; install it separately'; exit 1; }}
+command -v sha256sum >/dev/null || {{ echo 'sha256sum required'; exit 1; }}
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT HUP INT TERM
+curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' '{base}/install_demo.py' -o "$work/install_demo.py"
+printf '%s  %s\\n' '{installer_hash}' "$work/install_demo.py" | sha256sum --check --status
+curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' '{base}/{demo_name}' -o "$work/demo.zip"
+printf '%s  %s\\n' '{demo_hash}' "$work/demo.zip" | sha256sum --check --status
+python3 "$work/install_demo.py" --archive "$work/demo.zip" --sha256 '{demo_hash}' --destination "$HOME/.local/share/harmony/demo-{sha[:12]}" --run "$@"
+"""
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ref', default='HEAD')
@@ -39,18 +57,9 @@ def main():
     installer_hash = hashlib.sha256(installer).hexdigest()
     base = args.base_url.rstrip('/')
     # URLs and hashes are fixed in this version's launcher, never resolved via latest.
-    launcher = f"""#!/bin/sh
-set -eu
-[ "$(uname -s)" = Linux ] || {{ echo 'Linux only'; exit 1; }}
-command -v python3 >/dev/null || {{ echo 'Python 3.12 required; install it separately'; exit 1; }}
-command -v curl >/dev/null || {{ echo 'curl required; install it separately'; exit 1; }}
-command -v sha256sum >/dev/null || {{ echo 'sha256sum required'; exit 1; }}
-work=$(mktemp -d)
-trap 'rm -rf "$work"' EXIT HUP INT TERM
-curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' '{base}/install_demo.py' -o "$work/install_demo.py"
-printf '%s  %s\\n' '{installer_hash}' "$work/install_demo.py" | sha256sum --check --status
-python3 "$work/install_demo.py" --archive '{base}/{demo.name}' --sha256 '{demo_hash}' --destination "$HOME/.local/share/harmony/demo-{sha[:12]}" --run "$@"
-"""
+    # curl performs public HTTPS transport for both files; Python only validates a local archive.
+    # This avoids edge/WAF differences between curl and Python urllib clients.
+    launcher = render_launcher(base, installer_hash, demo.name, demo_hash, sha)
     (args.output/'install.sh').write_text(launcher)
     (args.output/'DOWNLOAD.json').write_text(json.dumps(dict(source_commit=sha, base_url=base,
         platform='Linux', requires='Python 3.12, curl, sha256sum', full_release_activation='HOLD',
