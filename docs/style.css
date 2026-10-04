@@ -10,3 +10,6 @@
 .hero-summary{max-width:690px}.work-cycle{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:28px 0}.work-cycle article{border-top:3px solid #087f9b;padding:18px 12px 0}.work-cycle h3{font-size:20px}.work-cycle p{font-size:14px;color:var(--muted)}.player-pool{background:#eaf0ee}.player-pool .measure{margin-bottom:0}#play,#today{border-top:1px solid #d6dbdc}#play h2{overflow-wrap:anywhere}@media(max-width:1000px){.work-cycle{grid-template-columns:repeat(3,1fr)}}@media(max-width:760px){.work-cycle{grid-template-columns:1fr}.work-cycle article{padding-top:12px}.hero-summary{max-width:100%}}
 
 #evidence-summary{font-size:13px}#evidence-summary dt{font-weight:bold;margin-top:10px}#evidence-summary dd{margin:2px 0;overflow-wrap:anywhere}details summary{cursor:pointer}
+
+/* Product copy must wrap within narrow viewports. */
+.work-cycle{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.work-cycle article{min-width:0;overflow-wrap:anywhere}.product-title{max-width:960px}#more-than h3{font-size:18px}nav,.actions{min-width:0}@media(max-width:760px){.work-cycle{grid-template-columns:1fr}.product-title{font-size:clamp(32px,8vw,48px);letter-spacing:-1px}}
