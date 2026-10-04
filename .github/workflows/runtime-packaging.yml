@@ -1,0 +1,69 @@
+name: Runtime and demo package verification
+on:
+  pull_request:
+  push:
+    branches: [harmony/runtime-packaging-portability-001]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Portable runtime suite
+        run: |
+          python3 -m unittest discover -v
+          python3 -m compileall -q telegraph tests demo scripts
+      - name: Build source packages
+        run: python3 scripts/package_source.py --output dist
+      - name: Verify packaged runtime
+        run: |
+          python3 -m zipfile -e dist/harmony-runtime-*.zip /tmp/harmony-packaged-runtime
+          cd /tmp/harmony-packaged-runtime
+          python3 -m unittest discover -v
+      - name: Verify Docker from packaged demo
+        run: |
+          python3 -m zipfile -e dist/harmony-demo-*.zip /tmp/harmony-packaged-demo
+          cd /tmp/harmony-packaged-demo
+          export HARMONY_DEMO_PORT=18765
+          args=(-p harmony-patch-ci -f compose.yaml -f demo/compose.kvm.override.yaml)
+          trap 'docker compose "${args[@]}" down --rmi local' EXIT
+          docker compose "${args[@]}" config
+          docker compose "${args[@]}" build
+          docker compose "${args[@]}" up -d
+          docker compose "${args[@]}" exec -T demo python3 - <<'PY'
+          import hashlib, json, time
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          base = 'http://localhost:8765'
+          def call(path, body=None):
+              data = None if body is None else json.dumps(body).encode()
+              req = Request(base+path, data=data, headers={'Host':'localhost:18765', 'Origin':'http://localhost:18765'})
+              with urlopen(req) as res: return json.load(res)
+          for attempt in range(50):
+              try:
+                  state=call('/api/session'); break
+              except OSError: time.sleep(.1)
+          else: raise RuntimeError('Demo never became ready')
+          def files(): return list(Path('/tmp').glob('harmony-demo-*/*'))
+          assert not files()
+          result=call('/api/decision',dict(token=state['token'],decision='REJECT'))
+          assert not files() and not result['receipt']['executed'] and result['receipt']['exit_status'] is None
+          state=call('/api/proposal',dict(token=state['token']))
+          result=call('/api/decision',dict(token=state['token'],decision='APPROVE'))
+          receipt=result['receipt']
+          assert len(files()) == 1 and files()[0].name == 'hello.txt'
+          assert files()[0].read_bytes() == b'harmony runtime: human-approved demo execution\n'
+          assert hashlib.sha256(files()[0].read_bytes()).hexdigest() == receipt['evidence_sha256']
+          assert receipt['exit_status'] == 0 and receipt['status'] == 'FINAL'
+          assert result['full_release_activation'] == 'HOLD'
+          print('PACKAGED_DOCKER_FLOW=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-source-packages
+          path: dist/

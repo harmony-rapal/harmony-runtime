@@ -95,3 +95,12 @@ BLOCKERS=NONE for this test mission on the observed KVM.
 The full suite still expects the pre-existing harmony account; this mission does
 not provision it or claim portability to hosts lacking production prerequisites.
 HUMAN_GATE_READY=YES. FULL_RELEASE_ACTIVATION=HOLD.
+
+## Portable follow-up — 2026-10-04
+
+The historical KVM PASS above depended on a provisioned harmony account.
+The follow-up separates production profile configuration from unit OS resolution:
+production profiles still require harmony; the resolver unit test uses a frozen
+test-local copy naming the real effective user. No OS identity mocking, skipped
+test, account provisioning or production profile change is needed. See
+[RUNTIME_PACKAGING_PATCH_001](RUNTIME_PACKAGING_PATCH_001.md) for current evidence.

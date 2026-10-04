@@ -735,10 +735,17 @@ class TestB4EnforcePermittedUser(BaseBlockerTest):
 
     def test_b4_profile_resolve_permitted_uid(self):
         """BuilderProfile.resolve_permitted_uid() dynamically resolves user via pwd."""
-        profile = get_profile("agy-builder-v1")
-        self.assertIsNotNone(profile)
-        expected_uid = pwd.getpwnam(profile.permitted_user).pw_uid
-        self.assertEqual(profile.resolve_permitted_uid(), expected_uid)
+        production_profile = get_profile("agy-builder-v1")
+        current_identity = pwd.getpwuid(os.geteuid())
+        profile = replace(production_profile, permitted_user=current_identity.pw_name)
+        # Exercise real OS resolution without requiring a production host account.
+        self.assertEqual(profile.resolve_permitted_uid(), current_identity.pw_uid)
+
+    def test_b4_production_profiles_preserve_runner_identity(self):
+        """Production identity is a configuration contract, not a unit host prerequisite."""
+        for profile_id in ("agy-builder-v1", "agy-closure-v1"):
+            with self.subTest(profile_id=profile_id):
+                self.assertEqual(get_profile(profile_id).permitted_user, "harmony")
 
     def test_b4_profile_resolve_nonexistent_user_raises(self):
         """BuilderProfile with nonexistent user raises RuntimeError on resolution."""
