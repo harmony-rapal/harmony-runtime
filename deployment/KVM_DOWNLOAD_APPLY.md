@@ -11,9 +11,11 @@ accounts, change sudo permissions or stop unrelated services.
    only the staged public static files there (regular files, no symlinks). Use
    readable static-file permissions for these new directories/files only.
 3. Back up /etc/nginx/sites-available/hab.rapal.tech before editing. Add the
-   location block from hab-download.nginx.conf inside its existing HTTPS server,
-   preserving the API bridge, /ops/, TLS settings and default 404. No other site
-   is changed. Check nginx -t; restore the backup if validation fails.
+   location block from hab-download.nginx.conf inside its existing HTTPS server.
+   The existing server-level Harmony Control Room Basic Auth is intentionally
+   disabled only inside the public /download and /download/ locations; the API
+   bridge, /ops/, TLS settings, default 404 and all other protected paths remain
+   unchanged. Check nginx -t; restore the backup if validation fails.
 4. After a successful configuration check, reload Nginx (not restart). Publish
    /download/index.html linking the verified version, so the base URL is usable.
 5. Check the public HTTPS URLs for index.html, install.sh, install_demo.py,
