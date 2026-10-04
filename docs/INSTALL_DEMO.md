@@ -48,7 +48,7 @@ An existing installation is preserved and causes a clear stop. To install
 elsewhere pass --destination /your/new/directory. The demo runs in the foreground
 on loopback port 18770; pass --port 18771 if that port is in use. No other process
 is stopped. Visit http://localhost:18770/demo.html and try Reject, New proposal,
-Approve. Ctrl+C stops the server and removes only its temporary sandbox.
+Approve. Ctrl+C or SIGTERM stops the server and removes only its temporary sandbox.
 
 For subsequent runs, enter the installed directory and run:
 
