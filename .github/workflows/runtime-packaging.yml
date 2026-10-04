@@ -2,7 +2,7 @@ name: Runtime and demo package verification
 on:
   pull_request:
   push:
-    branches: [harmony/runtime-packaging-portability-001]
+    branches: [harmony/runtime-packaging-portability-001, harmony/demo-install-001]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +22,17 @@ jobs:
           python3 -m compileall -q telegraph tests demo scripts
       - name: Build source packages
         run: python3 scripts/package_source.py --output dist
+      - name: Verify Linux install from packaged demo
+        run: |
+          python3 - <<'PYTEST'
+          import hashlib
+          from pathlib import Path
+          from scripts.install_demo import install
+          archive = next(Path('dist').glob('harmony-demo-*.zip'))
+          install(archive, hashlib.sha256(archive.read_bytes()).hexdigest(), '/tmp/harmony-installed-demo')
+          PYTEST
+          cd /tmp/harmony-installed-demo
+          python3 -m compileall -q demo
       - name: Verify packaged runtime
         run: |
           python3 -m zipfile -e dist/harmony-runtime-*.zip /tmp/harmony-packaged-runtime

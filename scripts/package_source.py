@@ -14,7 +14,7 @@ DEMO = (
     'docs/assets/logo.svg', 'docs/assets/logo-mark.svg',
     'docs/assets/logo-mono.svg', 'docs/assets/landscape.svg',
     'docs/assets/hero-wordmark.svg', 'docs/DEMO_001_PACKAGING.md',
-    'LICENSE', 'NOTICE',
+    'LICENSE', 'NOTICE', 'scripts/install_demo.py',
 )
 RUNTIME_DOCS = ('README.md', 'README_KO.md', 'RELEASE_STATUS.md',
                 'KNOWN_LIMITATIONS.md', 'SECURITY.md', 'INFLUENCES.md',
